@@ -1,7 +1,8 @@
-package com.example.livedatatraining
+package com.example.livedatatraining.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.livedatatraining.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
