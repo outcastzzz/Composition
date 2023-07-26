@@ -1,8 +1,12 @@
 package com.example.livedatatraining.domain.entity
 
-data class GameSettings (
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class GameSettings(
     val maxSumValue: Int,
     val minCountOfRightAnswers: Int,
     val minPercentOfRightAnswers: Int,
-    val gameTimeInSeconds: Int,
-)
+    val gameTimeInSeconds: Int
+) : Parcelable

@@ -1,27 +1,32 @@
 package com.example.livedatatraining.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.livedatatraining.R
+import androidx.navigation.fragment.navArgs
 import com.example.livedatatraining.databinding.FragmentGameBinding
-import com.example.livedatatraining.domain.entity.Level
+import com.example.livedatatraining.domain.entity.GameResult
+
 
 class GameFragment : Fragment() {
 
-    private lateinit var level: Level
+    private val args by navArgs<GameFragmentArgs>()
+
+    private val viewModelFactory by lazy {
+        GameViewModelFactory(args.level, requireActivity().application)
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[GameViewModel::class.java]
+    }
 
     private var _binding: FragmentGameBinding? = null
     private val binding: FragmentGameBinding
         get() = _binding ?: throw RuntimeException("FragmentGameBinding == null")
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,14 +38,25 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        observeViewModel()
     }
 
-    private fun launchGameFinishedFragment() {
-        findNavController().navigate(R.id.action_gameFragment_to_gameFinishedFragment)
+    private fun observeViewModel() {
+        viewModel.gameResult.observe(viewLifecycleOwner) {
+            launchGameFinishedFragment(it)
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
+    }
+
+    private fun launchGameFinishedFragment(gameResult: GameResult) {
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragmentToGameFinishedFragment(gameResult)
+        )
     }
 }
