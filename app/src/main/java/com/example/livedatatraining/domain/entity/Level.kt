@@ -1,6 +1,11 @@
 package com.example.livedatatraining.domain.entity
 
-enum class Level {
-    TEST, EASY, MEDIUM, HARD
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
+enum class Level : Parcelable {
+
+    TEST, EASY, NORMAL, HARD;
 }

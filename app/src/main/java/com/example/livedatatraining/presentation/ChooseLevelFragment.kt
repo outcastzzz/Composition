@@ -1,10 +1,8 @@
 package com.example.livedatatraining.presentation
 
-import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import com.example.livedatatraining.R
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -20,7 +18,7 @@ class ChooseLevelFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentChooseLevelBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -35,7 +33,7 @@ class ChooseLevelFragment : Fragment() {
                 launchGameFragment(Level.EASY)
             }
             buttonLevelNormal.setOnClickListener {
-                launchGameFragment(Level.MEDIUM)
+                launchGameFragment(Level.NORMAL)
             }
             buttonLevelHard.setOnClickListener {
                 launchGameFragment(Level.HARD)
@@ -44,29 +42,13 @@ class ChooseLevelFragment : Fragment() {
     }
 
     private fun launchGameFragment(level: Level) {
-        val args = Bundle().apply {
-            putParcelable(GameFragment.)
-        }
-        findNavController().navigate(R.id.action_chooseLevelFragment_to_gameFragment, args)
+        findNavController().navigate(
+            ChooseLevelFragmentDirections.actionChooseLevelFragmentToGameFragment(level)
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-
-        const val KEY_LEVEL = "level"
-        const val NAME = "GameFragment"
-
-        fun gameFragment(level: Level): GameFragment {
-            return GameFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_LEVEL, level)
-                }
-            }
-        }
-    }
-
 }
