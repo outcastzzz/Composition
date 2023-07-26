@@ -6,7 +6,7 @@ import com.example.livedatatraining.domain.entity.Question
 
 interface GameRepository {
 
-    fun generateQuesiton(
+    fun generateQuestion(
         maxSumValue: Int,
         countOfOptions: Int,
     ): Question
